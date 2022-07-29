@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile-builder
+    volumes:
+      - .:/code
+    user: $UID:$GID
+  
+  app: 
+    build: .
+    volumes:
+    - ./app:/app
+    ports:
+    - 80:8080
+    entrypoint: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--reload"]
+    environment:
+      DATABASE_HOST: mysql-service
+      DATABASE_PASSWORD: test1234
+      DATABASE_USER: root
+      DATABASE_SCHEMA: name
+    depends_on:
+      - mysql-service
+
+  mysql-service:
+      image: mysql:8.0.19
+      ports:
+      - 3306:3306
+      # volumes:
+      # - ./dbfiles:/var/lib/mysql
+      volumes:
+      - ../db/init-db.sql:/docker-entrypoint-initdb.d/initialize_db.sql
+      environment:
+        MYSQL_ROOT_PASSWORD: test1234 
+        MYSQL_DATABASE: name
+

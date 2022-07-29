@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+Requests = "*"
+uvicorn = "*"
+gunicorn = "*"
+pydantic = "*"
+sqlalchemy = "*"
+pymysql = "*"
+cryptography = "*"
+pyyaml = "*"
+python-logstash = "*"
+python-dotenv = "*"
+typer = "*"
+kafka-python = "*"
+pika = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
